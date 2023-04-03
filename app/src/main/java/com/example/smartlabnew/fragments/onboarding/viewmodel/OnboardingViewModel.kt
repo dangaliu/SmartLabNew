@@ -1,13 +1,12 @@
 package com.example.smartlabnew.fragments.onboarding.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.smartlabnew.R
 import com.example.smartlabnew.model.dto.OnboardingItem
 import java.util.*
 
-class OnboardingViewModel(private val app: Application) : AndroidViewModel(app) {
+class OnboardingViewModel : ViewModel() {
 
     val items = LinkedList(
         listOf(
@@ -31,10 +30,14 @@ class OnboardingViewModel(private val app: Application) : AndroidViewModel(app) 
 
     var isLastPage = MutableLiveData(false)
 
-    fun nextPage() {
-        items.removeFirst()
+    var currentText = "Пропустить"
+
+    fun nextPage(): OnboardingItem {
+        val removedItem = items.removeFirst()
         if (items.size == 0) {
             isLastPage.value = true
+            currentText = "Завершить"
         }
+        return removedItem
     }
 }
